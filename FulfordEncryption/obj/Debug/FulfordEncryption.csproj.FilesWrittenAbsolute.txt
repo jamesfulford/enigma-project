@@ -1,0 +1,5 @@
+/Users/jamesfulford/Projects/FulfordEncryption/FulfordEncryption/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/jamesfulford/Projects/FulfordEncryption/FulfordEncryption/bin/Debug/FulfordEncryption.dll.mdb
+/Users/jamesfulford/Projects/FulfordEncryption/FulfordEncryption/bin/Debug/FulfordEncryption.dll
+/Users/jamesfulford/Projects/FulfordEncryption/FulfordEncryption/obj/Debug/FulfordEncryption.dll
+/Users/jamesfulford/Projects/FulfordEncryption/FulfordEncryption/obj/Debug/FulfordEncryption.dll.mdb

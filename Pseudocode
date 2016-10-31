@@ -1,0 +1,122 @@
+# Encryption Engine.pseudocode
+# might work in Python
+# James Fulford
+# 9/4/2016
+
+class Engine():
+    def __init__(self, alphabet_key, assembly_key, spin_key, spin_method_key):
+        self.alphabet = Alphabet(alphabet_key)
+        self.assembly = Assembly(assembly_key, spin_method_key)
+        self.assembly.set(spin_key)
+
+    def encrypt(self, message):
+        cipher = ""
+        for letter in message:
+            value = self.alphabet.to_number(letter)
+            value = self.assembly.encrypt(value)
+            cipher += self.alphabet.to_letter(value)
+        return cipher
+
+    def decrypt(self, cipher):
+        message = ""
+        for letter in cipher:
+            value = self.alphabet.to_number(letter)
+            value = self.assembly.decrypt(value)
+            message += self.alphabet.to_letter(value)
+        return message
+
+class Assembly():
+    def __init__(self, assembly_key, spin_method_key):
+        def generate_rotors(assembly_key):
+            """
+            Returns an array of rotors generated (somehow) using the assembly_key string. (Black magic, basically)
+            """
+            pass
+
+        def increment_list(spin_method_key):
+            """
+            Returns an array of numbers indicating how much each rotor should spin per .spin() call.
+            """
+            pass
+
+        self.rotors = generate_rotors(assembly_key)
+        self.increments = increment_list(spin_method_key)
+
+
+    def encrypt(self, value):
+        cipher = value
+        for rotor in self.rotors:
+            cipher = rotor.encrypt(cipher)
+        self.spin()
+        return cipher
+
+    def decrypt(self, value):
+        message = value
+        for rotor in self.rotors: # backwards list!
+            message = rotor.decrypt(message)
+        self.spin()
+        return message
+
+    def spin(self):
+        for i in range(len(self.rotors)):
+            times = self.increments[i]
+            self.rotors[i].spin(times)
+
+    def set(self, spin_key):
+        """
+        Figure out later:
+        spin_key parses to a list that tells each rotor how many times it should have been spun from baseline.
+        Would be nice to make it absolute instead of relative... will require some changes in Rotor object.
+        """
+        for i in range(len(self.rotors)):
+            self.rotors[i].spin(spin_key[i])
+
+
+import random
+
+class Rotor():
+    def __init__(self, seed):
+        # use of seed parameter depending on how Assembly.__init__.generate_rotors works
+        def generate_rotor(seed):
+            """
+            Generates a list of numbers based on seed
+            """
+            pass
+        self.map = generate_rotor(seed)
+
+    def encrypt(self, value):
+        """
+        Mathematically speaking, this is not a function. This does not always produce the same answer for the same input
+        """
+        indices = []
+        for i in range(len(self.map)):
+            if self.map[i] is value:
+                indices.append(i)
+        return indices[random.integer(0, len(indices))] # returns random index whose content matches value
+
+    def decrypt(self, value):
+        """
+        Inverse of .encrypt(value). Is a function, mathematically speaking.
+        """
+        return self.map[value]
+
+    def spin(self, times):
+        for i in range(times):
+            shifted_value = self.map.pop()  # takes first entry off the top of the list
+            self.map.append(shifted_value)  # moves first entry to the bottom of the list
+
+class Alphabet():
+    def __init__(self, alphabet_key):
+        def generate_alphabet(alphabet_key):
+            """
+            Returns a list of unique letters.
+            """
+            pass
+        self.map = generate_alphabet(alphabet_key)
+
+    def to_letter(self, number):
+        return self.map[number]
+
+    def to_number(self, letter):
+        return self.map.index(letter)
+
